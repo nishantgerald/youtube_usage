@@ -1,0 +1,7 @@
+watch_history:
+  type: pandas.JSONDataset
+  filepath: data/01_raw/watch-history.json
+
+subscriptions:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/subscriptions.csv

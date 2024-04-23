@@ -30,6 +30,10 @@ def preprocess_watch_history(watch_history: pd.DataFrame) -> pd.DataFrame:
             watch_history.loc[watch_history.index[count],'channel_name']=row[0]['name']
         except:
             watch_history.loc[watch_history.index[count],'channel_name']="nan"
+    #Remove the word 'Watched' at the beginning of each line in the `title`` column and not anywhere else
+    watch_history['title'] = watch_history['title'].str.replace('Watched ', '')
+    #Drop all rows where the title contains www.youtube.com
+    watch_history = watch_history[~watch_history['title'].str.contains('www.youtube.com')]
     preprocessed_watch_history = watch_history.drop(['activityControls', 'header', 'products', 'subtitles', 'details', 'description'], axis=1)
     return preprocessed_watch_history
 
@@ -58,4 +62,5 @@ def create_combined_table (watch_history: pd.DataFrame, subscriptions: pd.DataFr
     preprocessed_watch_history = preprocess_watch_history(watch_history)
     preprocessed_subscriptions = preprocess_subscriptions(subscriptions)
     combined_table = _is_subscribed(preprocessed_watch_history,preprocessed_subscriptions['Channel Title'])
+    combined_table.to_csv('data/04_feature/combined_table.csv', index=False)
     return combined_table

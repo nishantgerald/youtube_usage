@@ -20,7 +20,7 @@ def create_pipeline(**kwargs) -> Pipeline:
             ),
             node(
                 func=create_combined_table,
-                inputs=["preprocessed_watch_history","preprocessed_subscriptions"],
+                inputs=["watch_history","subscriptions"],
                 outputs="combined_table",
                 name="combine_table_node",
             ),
